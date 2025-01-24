@@ -4,12 +4,12 @@ use regex::Regex;
 
 pub fn part_one(input: &str) -> Option<u64> {
     let lines = input.lines();
-    let mut left_numbers = Vec::new();
-    let mut right_numbers = Vec::new();
 
     let re = Regex::new(r"(?<left>\d+)\s+(?<right>\d+)").unwrap();
 
     // create two lists with left and right values
+    let mut left_numbers = Vec::new();
+    let mut right_numbers = Vec::new();
     for line in lines {
         if let Some(caps) = re.captures(line) {
             let left_number = caps["left"].parse::<u64>();
@@ -21,11 +21,10 @@ pub fn part_one(input: &str) -> Option<u64> {
                 right_numbers.push(num_right);
             }
         } else {
-            println!("not match?");
+            println!("Could not find left and right number in line!");
             continue;
         };
     }
-    println!("vector length: {:?}", left_numbers.len());
     assert_eq!(left_numbers.len(), right_numbers.len());
 
     // order lists
@@ -41,9 +40,6 @@ pub fn part_one(input: &str) -> Option<u64> {
 
     // sum up distances
     let summed_diff: u64 = diff_numbers.iter().sum();
-    println!("{:?}", summed_diff);
-
-
     Some(summed_diff)
 }
 
