@@ -2,11 +2,7 @@ advent_of_code::solution!(1);
 
 use regex::Regex;
 
-pub fn part_one(input: &str) -> Option<u64> {
-    if input.is_empty() {
-        return None;
-    }
-
+pub fn get_lists(input: &str) -> (Vec<u64>, Vec<u64>) {
     let lines = input.lines();
     let re = Regex::new(r"(?<left>\d+)\s+(?<right>\d+)").unwrap();
 
@@ -14,7 +10,6 @@ pub fn part_one(input: &str) -> Option<u64> {
     let mut left_numbers = Vec::new();
     let mut right_numbers = Vec::new();
     for line in lines {
-        println!("HEEEEERE");
         if let Some(caps) = re.captures(line) {
             let left_number = caps["left"].parse::<u64>();
             let right_number = caps["right"].parse::<u64>();
@@ -35,6 +30,16 @@ pub fn part_one(input: &str) -> Option<u64> {
     left_numbers.sort();
     right_numbers.sort();
 
+    (left_numbers, right_numbers)
+}
+
+pub fn part_one(input: &str) -> Option<u64> {
+    if input.is_empty() {
+        return None;
+    }
+
+    let (left_numbers, right_numbers) = get_lists(input);
+
     // compute pairwise distances
     let mut diff_numbers = Vec::new();
     for (left, right) in left_numbers.iter().zip(right_numbers) {
@@ -48,7 +53,23 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    None
+    if input.is_empty() {
+        return None;
+    }
+
+    let (left_numbers, right_numbers) = get_lists(input);
+
+    // compute factors
+    let mut factors = Vec::new();
+    for left in left_numbers {
+        // search for left in right_numbers
+        let right_occurences = right_numbers.iter().filter(|&&x| x == left).count();
+        factors.push(left*(right_occurences as u64));
+    }
+
+    // sum up factors
+    let summed_factos = factors.iter().sum();
+    Some(summed_factos)
 }
 
 #[cfg(test)]
