@@ -3,14 +3,18 @@ advent_of_code::solution!(1);
 use regex::Regex;
 
 pub fn part_one(input: &str) -> Option<u64> {
-    let lines = input.lines();
+    if input.is_empty() {
+        return None;
+    }
 
+    let lines = input.lines();
     let re = Regex::new(r"(?<left>\d+)\s+(?<right>\d+)").unwrap();
 
     // create two lists with left and right values
     let mut left_numbers = Vec::new();
     let mut right_numbers = Vec::new();
     for line in lines {
+        println!("HEEEEERE");
         if let Some(caps) = re.captures(line) {
             let left_number = caps["left"].parse::<u64>();
             let right_number = caps["right"].parse::<u64>();
@@ -44,7 +48,7 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
-    Some(42)
+    None
 }
 
 #[cfg(test)]
