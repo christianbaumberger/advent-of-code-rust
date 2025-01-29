@@ -2,6 +2,10 @@ advent_of_code::solution!(3);
 use regex::Regex;
 
 pub fn part_one(input: &str) -> Option<u64> {
+    if input.is_empty() {
+        return None;
+    }
+
     let re = Regex::new(r"mul\((\d+),(\d+)\)").unwrap();
     let mut total_mul_sum = 0;
     for (_, [first_number, second_number]) in re.captures_iter(input).map(|c| c.extract()) {
@@ -11,6 +15,10 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 pub fn part_two(input: &str) -> Option<u64> {
+    if input.is_empty() {
+        return None;
+    }
+
     None
 }
 
