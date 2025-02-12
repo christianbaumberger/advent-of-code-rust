@@ -9,7 +9,8 @@ pub fn part_one(input: &str) -> Option<u64> {
     let re = Regex::new(r"mul\((\d{1,3}),(\d{1,3})\)").unwrap();
     let mut total_mul_sum = 0;
     for (_, [first_number, second_number]) in re.captures_iter(input).map(|c| c.extract()) {
-        total_mul_sum += first_number.parse::<u64>().unwrap_or(0) * second_number.parse::<u64>().unwrap_or(0);
+        total_mul_sum +=
+            first_number.parse::<u64>().unwrap_or(0) * second_number.parse::<u64>().unwrap_or(0);
     }
     Some(total_mul_sum)
 }
