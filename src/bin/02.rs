@@ -6,20 +6,29 @@ struct Report {
 }
 impl Report {
     fn parse(input: &str) -> Self {
-        let numbers_list: Vec<i32> = input.split_whitespace().map(|x| x.parse::<i32>().unwrap()).collect();
+        let numbers_list: Vec<i32> = input
+            .split_whitespace()
+            .map(|x| x.parse::<i32>().unwrap())
+            .collect();
         let consecutive_diff: Vec<i32> = Report::get_consecutive_diffs(&numbers_list);
-        Self{levels: numbers_list, consecutive_diffs: consecutive_diff}
+        Self {
+            levels: numbers_list,
+            consecutive_diffs: consecutive_diff,
+        }
     }
-    fn get_consecutive_diffs(numbers_list: &Vec<i32>) -> Vec<i32>{
+    fn get_consecutive_diffs(numbers_list: &Vec<i32>) -> Vec<i32> {
         numbers_list.windows(2).map(|x| x[1] - x[0]).collect()
     }
 
     fn strictly_increasing_or_decreasing(&self) -> bool {
-        self.consecutive_diffs.iter().all(|&x| x > 0) || self.consecutive_diffs.iter().all(|&x| x < 0)
+        self.consecutive_diffs.iter().all(|&x| x > 0)
+            || self.consecutive_diffs.iter().all(|&x| x < 0)
     }
 
     fn check_adjacent_levels(&self) -> bool {
-        self.consecutive_diffs.iter().all(|&x| (x.abs() >= 1) && (x.abs() <= 3))
+        self.consecutive_diffs
+            .iter()
+            .all(|&x| (x.abs() >= 1) && (x.abs() <= 3))
     }
 
     fn is_safe(&self) -> bool {
@@ -35,7 +44,10 @@ impl Report {
                 let mut levels_clone = self.levels.clone();
                 levels_clone.remove(index);
                 let consecutive_diff: Vec<i32> = Report::get_consecutive_diffs(&levels_clone);
-                let report = Report{levels: levels_clone, consecutive_diffs: consecutive_diff};
+                let report = Report {
+                    levels: levels_clone,
+                    consecutive_diffs: consecutive_diff,
+                };
                 if report.is_safe() {
                     return true;
                 }

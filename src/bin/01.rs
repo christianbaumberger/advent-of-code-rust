@@ -64,7 +64,7 @@ pub fn part_two(input: &str) -> Option<u64> {
     for left in left_numbers {
         // search for left in right_numbers
         let right_occurences = right_numbers.iter().filter(|&&x| x == left).count();
-        factors.push(left*(right_occurences as u64));
+        factors.push(left * (right_occurences as u64));
     }
 
     // sum up factors
