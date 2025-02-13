@@ -89,7 +89,7 @@ pub fn part_one(input: &str) -> Option<u64> {
         return None;
     }
 
-    let mut horizontal_lines = get_horizontal_lines(input);
+    let horizontal_lines = get_horizontal_lines(input);
     let max_length = horizontal_lines.first().unwrap().chars().count();
 
     let mut vertical_lines = get_vertical_lines(&horizontal_lines, max_length);
@@ -98,14 +98,17 @@ pub fn part_one(input: &str) -> Option<u64> {
     let mut diagonal_lines_2 =
         get_diag_lines_top_left_to_bottom_right(&horizontal_lines, max_length);
 
-    horizontal_lines.append(&mut vertical_lines);
-    horizontal_lines.append(&mut diagonal_lines_1);
-    horizontal_lines.append(&mut diagonal_lines_2);
-    let re = Regex::new(r"(XMAS)|(SAMX)").unwrap();
+    let mut lines = horizontal_lines;
+    lines.append(&mut vertical_lines);
+    lines.append(&mut diagonal_lines_1);
+    lines.append(&mut diagonal_lines_2);
+    let xmas_re = Regex::new(r"(XMAS)").unwrap();
+    let samx_re = Regex::new(r"(SAMX)").unwrap();
     let mut total_counts = 0;
-    for line in horizontal_lines {
-        let counts = re.find_iter(&line).count();
-        total_counts += counts;
+    for line in lines {
+        let xmas_counts = xmas_re.find_iter(&line).count();
+        let samx_counts = samx_re.find_iter(&line).count();
+        total_counts += xmas_counts + samx_counts;
     }
 
     Some(total_counts as u64)
@@ -194,6 +197,13 @@ mod tests {
         let input = advent_of_code::template::read_file("examples", DAY);
         let result = part_one(&input);
         assert_eq!(result, Some(0));
+    }
+
+    #[test]
+    fn test_part_one_small_example() {
+        let input = advent_of_code::template::read_file_part("examples", DAY, 2);
+        let result = part_one(&input);
+        assert_eq!(result, Some(18));
     }
 
     #[test]
