@@ -130,7 +130,7 @@ mod tests {
         let input = advent_of_code::template::read_file("examples", DAY);
         let result = get_horizontal_lines(&input);
         let mut expected = Vec::<String>::new();
-        for i in 0..9 {
+        for _i in 0..9 {
             expected.push("123456789".to_string());
         }
         assert_eq!(expected, result);
@@ -205,6 +205,7 @@ mod tests {
         let result = part_one(&input);
         assert_eq!(result, Some(18));
     }
+
 
     #[test]
     fn test_part_two() {
